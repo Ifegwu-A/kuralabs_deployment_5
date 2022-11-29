@@ -20,6 +20,9 @@ pipeline {
                 dir ('dockerize_gunicorn-flask') {
                     sh '''#!/bin/bash
                     source test3/bin/activate
+                    pip3 --install --upgrade pip
+                    pip3 install numpy pytest
+                    python -m pytest test.py
                     py.test --verbose --junit-xml test-reports/results.xml
                     '''
                 }
