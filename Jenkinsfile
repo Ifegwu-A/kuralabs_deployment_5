@@ -25,6 +25,7 @@ pipeline {
         } 
       }
     }
+/*     
     stage ('Create Container') {
       agent { label 'DockerDeploy' }
       steps {
@@ -71,7 +72,7 @@ pipeline {
     }
    }
 }
-/*
+
 pipeline {
   agent any
    stages {
