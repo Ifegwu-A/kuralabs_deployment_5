@@ -10,8 +10,9 @@ In this deployment I will be building a CI/CD pipeline on Jenkins server to depl
 * Set up jenkins agents for docker.
 * Set up jenkins agents for terraform.
 * Create credentials.
-* Create a pipeline on Jenkins.
 * Create Jenkinsfile.
+* Create a pipeline on Jenkins.
+
 
 ## Process
 * #### Creation of the three EC2!
@@ -37,8 +38,27 @@ Docker check!
   * Create a new dockerhub access token.
 ![Screenshot Capture - 2022-11-30 - 21-14-37](https://user-images.githubusercontent.com/108818957/204951867-30dfa1d3-7c08-4e12-bbac-b0dcd5a4ed42.png)
 
+* #### Create Jenkinsfile.
+  * The build stage - The application will be created in a virtual environment.
+  * The test stage - The application will run unit tests to make sure it's working as expected.
+  * Create Container stage - The dockerfile will be copied from the repository to create an image of the flask application.
+  * Push to DockerHub stage - The image will be push to dockerHub to later be used in terraform.
+  * Deploy to ECS stage - Terraform will create the infrastructure need on aws and ECS will use the image from dockerhub.
+  * Destroy ECS Infra - Terraform will destory all the infrastructure created on aws to avoid unexpected charges. 
 
+* #### ERRORS!!!
+  * My first error occurred during the test stage, this was due to an error in my [test_app.py](https://github.com/finalboss360/kuralabs_deployment_5/blob/main/test_app.py).
+![Screenshot Capture - 2022-11-22 - 17-47-06](https://user-images.githubusercontent.com/108818957/204956497-69edc1ea-a570-4d5c-b581-a3c68d73da4b.png)
+  * My second error occurred in my [Jenkinsfile]( https://github.com/finalboss360/kuralabs_deployment_5/blob/main/Jenkinsfile) more especially the deploy to ECS stage. Jenkins was access my previous credentials from last build, which caused my build to fail. Luckily, I was able to figure this out after my 26th attempt :-)
+  ![Screenshot Capture - 2022-11-30 - 20-56-15](https://user-images.githubusercontent.com/108818957/204960999-63b90929-5f8d-4120-9ada-c422bf0195a8.png)
+  * My third error occurred at the end of my build, I was unable to reach my url because I had port 5000 open instead of port 8000 in my [Terraform](https://github.com/finalboss360/kuralabs_deployment_5/tree/main/intTerraform)
+![Screenshot Capture - 2022-11-29 - 14-35-32](https://user-images.githubusercontent.com/108818957/204958846-4f8f261e-a8d2-45f0-9dd0-f762e700e58e.png)
 
-
+* #### Completed build with url-shortner!
+  * ![Screenshot Capture - 2022-11-30 - 20-55-20](https://user-images.githubusercontent.com/108818957/204961899-364c38a5-13cb-46eb-9062-b62d5fa85c5f.png)
+  * ![Screenshot Capture - 2022-11-29 - 15-36-22](https://user-images.githubusercontent.com/108818957/204961985-122bac98-1857-41aa-b1e9-22b43189ce22.png)
+  
+* ### Diagram!
+  ![Diagram](https://user-images.githubusercontent.com/108818957/204962337-b2ec2536-e9c9-4f10-96ec-fd05858e7d1b.png)
 
 
